@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.outerspace.hiltexperiment.data_layer.GameRules
-import com.outerspace.hiltexperiment.data_layer.GameRulesInterface
 import com.outerspace.hiltexperiment.ui.theme.HiltExperimentTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,10 +19,11 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject lateinit var gameRules: GameRules
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val gameRules = GameRules()
         enableEdgeToEdge()
         setContent {
             HiltExperimentTheme {
@@ -40,7 +39,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(modifier: Modifier = Modifier, gameRules: GameRulesInterface) {
+fun Greeting(modifier: Modifier = Modifier, gameRules: GameRules) {
     Text(
         text = "play: ${gameRules.firstPlay()}!",
         modifier = modifier

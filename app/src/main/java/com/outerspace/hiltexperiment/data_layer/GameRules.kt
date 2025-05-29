@@ -1,11 +1,10 @@
 package com.outerspace.hiltexperiment.data_layer
 
-interface GameRulesInterface {
-    fun firstPlay(): String
-}
+import javax.inject.Inject
 
-open class GameRules: GameRulesInterface {
-    override fun firstPlay(): String {
+
+class GameRules @Inject constructor() {
+    fun firstPlay(): String {
         return "A"
     }
 }
