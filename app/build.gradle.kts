@@ -1,8 +1,15 @@
+// Hilt is a pain to configure. If you follow the Android Documentation and
+// StackOverflow examples, you get it wrong.
+//
+// I finally followed https://developer.android.com/training/dependency-injection/hilt-android
+// and serious intuition, the first example worked fineit
+//
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -41,8 +48,10 @@ android {
 }
 
 dependencies {
-    implementation (libs.hilt.android)
-    implementation (libs.com.google.devtools.ksp.gradle.plugin)
+    //implementation (libs.hilt.android)
+    //implementation (libs.com.google.devtools.ksp.gradle.plugin)
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
