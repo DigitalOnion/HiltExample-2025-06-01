@@ -1,10 +1,20 @@
 package com.outerspace.hiltexperiment.data_layer
 
 import javax.inject.Inject
+import kotlin.random.Random
 
+const val allChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 class GameRules @Inject constructor() {
-    fun firstPlay(): String {
-        return "A"
+    fun randomPlay(): String {
+        val ch = allChars[Random.nextInt(0, allChars.length - 1)]
+        return ch.toString()
+    }
+}
+
+class GameBoard @Inject constructor(val gameRules: GameRules) {
+    fun getRandomBoard(nCols: Int, nRows: Int): List<List<String>> {
+        val board = List(nRows) { List(nCols) { gameRules.randomPlay() } }
+        return board
     }
 }

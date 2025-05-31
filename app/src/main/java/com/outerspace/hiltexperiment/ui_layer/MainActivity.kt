@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.outerspace.hiltexperiment.data_layer.GameBoard
 import com.outerspace.hiltexperiment.data_layer.GameRules
 import com.outerspace.hiltexperiment.ui.theme.HiltExperimentTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,7 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    @Inject lateinit var gameRules: GameRules
+    @Inject lateinit var gameBoard: GameBoard
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +29,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             HiltExperimentTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
+                    GameScreen(
                         modifier = Modifier.padding(innerPadding),
-                        gameRules
+                        gameBoard
                     )
                 }
             }
@@ -39,9 +40,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(modifier: Modifier = Modifier, gameRules: GameRules) {
+fun GameScreen(modifier: Modifier = Modifier, gameBoard: GameBoard) {
     Text(
-        text = "play: ${gameRules.firstPlay()}!",
+        text = "play: ${gameBoard.getRandomBoard(4, 4).toString()}!",
         modifier = modifier
     )
 }
@@ -51,6 +52,7 @@ fun Greeting(modifier: Modifier = Modifier, gameRules: GameRules) {
 fun GreetingPreview() {
     HiltExperimentTheme {
         val gameRules = GameRules()
-        Greeting(Modifier, gameRules)
+        val gameBoard = GameBoard(gameRules)
+        GameScreen(Modifier, gameBoard)
     }
 }
