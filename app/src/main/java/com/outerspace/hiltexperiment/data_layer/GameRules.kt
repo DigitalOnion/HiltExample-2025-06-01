@@ -12,8 +12,12 @@ class GameRules @Inject constructor() {
     }
 }
 
-class GameBoard @Inject constructor(val gameRules: GameRules) {
-    fun getRandomBoard(nCols: Int, nRows: Int): List<List<String>> {
+interface GameBoardInterface {
+    fun getRandomBoard(nCols: Int, nRows: Int): List<List<String>>
+}
+
+class GameBoard @Inject constructor(val gameRules: GameRules): GameBoardInterface {
+    override fun getRandomBoard(nCols: Int, nRows: Int): List<List<String>> {
         val board = List(nRows) { List(nCols) { gameRules.randomPlay() } }
         return board
     }
