@@ -1,5 +1,6 @@
 package com.outerspace.hiltexperiment.data_layer
 
+import android.util.Log
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -13,12 +14,19 @@ class GameRules @Inject constructor() {
 }
 
 interface GameBoardInterface {
-    fun getRandomBoard(nCols: Int, nRows: Int): List<List<String>>
+    fun getRandomBoard(nCols: Int, nRows: Int): List<List<GameCell>>
+}
+
+class GameCell(val face: String) {
+    fun
+            onClick() {
+        Log.d("GAME CELL", face)
+    }
 }
 
 class GameBoard @Inject constructor(val gameRules: GameRules): GameBoardInterface {
-    override fun getRandomBoard(nCols: Int, nRows: Int): List<List<String>> {
-        val board = List(nRows) { List(nCols) { gameRules.randomPlay() } }
+    override fun getRandomBoard(nCols: Int, nRows: Int): List<List<GameCell>> {
+        val board = List(nRows) { List(nCols) { GameCell(gameRules.randomPlay()) } }
         return board
     }
 }
