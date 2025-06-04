@@ -48,10 +48,12 @@ android {
 }
 
 dependencies {
-    //implementation (libs.hilt.android)
-    //implementation (libs.com.google.devtools.ksp.gradle.plugin)
+    // Hilt
     implementation("com.google.dagger:hilt-android:2.56.2")
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+
+    // Moshi
+    implementation("com.squareup.moshi:moshi:1.15.2")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
