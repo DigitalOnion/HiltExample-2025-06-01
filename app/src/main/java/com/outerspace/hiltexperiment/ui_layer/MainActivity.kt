@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,10 +22,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.outerspace.hiltexperiment.data_layer.GameBoard
-import com.outerspace.hiltexperiment.data_layer.GameRules
+import androidx.lifecycle.lifecycleScope
 import com.outerspace.hiltexperiment.ui.theme.HiltExperimentTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -42,7 +41,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     GameKeyboard(
                         modifier = Modifier.padding(innerPadding),
-                        mainVM
+                        mainVM,
+                        lifecycleScope
                     )
                 }
             }
@@ -51,9 +51,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GameKeyboard(modifier: Modifier = Modifier, mainVM: MainViewModel) {
-    val matrix = mainVM.getRandomBoard(5, 7)
-    Column(Modifier.fillMaxSize()) {
+fun GameKeyboard(modifier: Modifier = Modifier, mainVM: MainViewModel, scope: CoroutineScope) {
+    val matrix = mainVM.getGameBoard(5, 7, scope)
+    Column(modifier.fillMaxSize()) {
         Spacer(Modifier.fillMaxWidth().height(64.dp))
         matrix.forEach { row ->
             Spacer(Modifier.fillMaxWidth().height(4.dp))
@@ -62,7 +62,9 @@ fun GameKeyboard(modifier: Modifier = Modifier, mainVM: MainViewModel) {
             ) {
                 row.forEach { cell ->
                     Button(onClick = { cell.onClick() }, modifier = Modifier, ) {
-                        Text(cell.face, modifier = Modifier.width(20.dp), textAlign = TextAlign.Center)
+                        Text(cell.face,
+                            modifier = Modifier.width(20.dp),
+                            textAlign = TextAlign.Center)
                     }
                 }
             }
@@ -74,9 +76,9 @@ fun GameKeyboard(modifier: Modifier = Modifier, mainVM: MainViewModel) {
 @Composable
 fun GameScreenPreview() {
     HiltExperimentTheme {
-        val gameRules = GameRules()
-        val gameBoard = GameBoard(gameRules)
-        var mainVM = MainViewModel(gameBoard)
-        GameKeyboard(Modifier, mainVM)
+        //val gameRules = GameRules()
+        //val gameBoard = GameBoard(gameRules)
+        //var mainVM = MainViewModel(gameBoard)
+        //GameKeyboard(Modifier, mainVM, )
     }
 }

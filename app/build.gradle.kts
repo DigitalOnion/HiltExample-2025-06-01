@@ -49,11 +49,20 @@ android {
 
 dependencies {
     // Hilt
-    implementation("com.google.dagger:hilt-android:2.56.2")
-    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     // Moshi
-    implementation("com.squareup.moshi:moshi:1.15.2")
+    // check: https://stackoverflow.com/questions/67856797/moshiconverterfactory-is-not-accessable
+    implementation (libs.moshi)
+    implementation(libs.moshi.kotlin)
+    ksp(libs.moshi.kotlin.codegen)
+
+    // Retrofit
+    implementation (libs.retrofit)
+    implementation (libs.converter.moshi)
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

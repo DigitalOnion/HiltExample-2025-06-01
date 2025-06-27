@@ -1,12 +1,11 @@
 package com.outerspace.hiltexperiment.ui_layer
 
 import androidx.lifecycle.ViewModel
-import com.outerspace.hiltexperiment.data_layer.GameBoard
-import com.outerspace.hiltexperiment.data_layer.GameBoardInterface
-import com.outerspace.hiltexperiment.data_layer.GameCell
-import com.outerspace.hiltexperiment.data_layer.GameRules
-import dagger.hilt.android.AndroidEntryPoint
+import com.outerspace.hiltexperiment.data_layer.game.GameBoard
+import com.outerspace.hiltexperiment.data_layer.game.GameBoardInterface
+import com.outerspace.hiltexperiment.data_layer.game.GameCell
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 @HiltViewModel
@@ -14,7 +13,7 @@ class MainViewModel @Inject constructor(
     private val gameBoard: GameBoard
 ): ViewModel(), GameBoardInterface {
 
-    override fun getRandomBoard(nCols:Int, nRows: Int): List<List<GameCell>> {
-        return gameBoard.getRandomBoard(nCols, nRows)
+    override fun getGameBoard(nCols:Int, nRows: Int, scope: CoroutineScope): List<List<GameCell>> {
+        return gameBoard.getGameBoard(nCols, nRows, scope)
     }
 }
