@@ -1,10 +1,10 @@
 package com.outerspace.hiltexperiment.data_layer.game
 
+import com.outerspace.hiltexperiment.ui_layer.GameUIInterface
 import kotlinx.coroutines.CoroutineScope
 
 class GameCell(val face: String,
                val rules: GameRules,
-               val scope: CoroutineScope,
                ) {
 
     fun onClick() {

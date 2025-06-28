@@ -1,5 +1,6 @@
 package com.outerspace.hiltexperiment.ui_layer
 
+import android.util.Log
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -35,14 +36,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        mainVM.liveResult.observe(this) {
+            result -> Log.d("MainActivity", result)
+        }
+
         enableEdgeToEdge()
         setContent {
             HiltExperimentTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     GameKeyboard(
                         modifier = Modifier.padding(innerPadding),
-                        mainVM,
-                        lifecycleScope
+                        mainVM
                     )
                 }
             }
@@ -51,8 +55,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun GameKeyboard(modifier: Modifier = Modifier, mainVM: MainViewModel, scope: CoroutineScope) {
-    val matrix = mainVM.getGameBoard(5, 7, scope)
+fun GameKeyboard(modifier: Modifier = Modifier, mainVM: MainViewModel) {
+    val matrix = mainVM.getGameBoard(5, 7, mainVM)
     Column(modifier.fillMaxSize()) {
         Spacer(Modifier.fillMaxWidth().height(64.dp))
         matrix.forEach { row ->

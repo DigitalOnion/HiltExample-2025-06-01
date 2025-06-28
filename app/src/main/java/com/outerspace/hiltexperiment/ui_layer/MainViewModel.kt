@@ -1,6 +1,8 @@
 package com.outerspace.hiltexperiment.ui_layer
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.outerspace.hiltexperiment.data_layer.game.GameBoard
 import com.outerspace.hiltexperiment.data_layer.game.GameBoardInterface
 import com.outerspace.hiltexperiment.data_layer.game.GameCell
@@ -11,9 +13,19 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val gameBoard: GameBoard
-): ViewModel(), GameBoardInterface {
+): ViewModel(), GameBoardInterface, GameUIInterface {
 
-    override fun getGameBoard(nCols:Int, nRows: Int, scope: CoroutineScope): List<List<GameCell>> {
-        return gameBoard.getGameBoard(nCols, nRows, scope)
+    val liveResult: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
+    override val scope = viewModelScope
+
+    override fun evaluationResult(result: String) {
+        liveResult.value = result
+    }
+
+    override fun getGameBoard(nCols:Int, nRows: Int, gameUi: GameUIInterface): List<List<GameCell>> {
+        return gameBoard.getGameBoard(nCols, nRows, this)
     }
 }
