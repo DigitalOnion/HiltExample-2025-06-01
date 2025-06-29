@@ -41,11 +41,17 @@ class GameRules @Inject constructor(
                 val entryList = dictionaryService.getDictionaryEntry(content)
                 val entry = entryList[0].meanings!![0]?.definitions!![0]?.definition!!
                 Log.d("ENTRY", "Entry : $entry")
-                gameUi.evaluationResult(entry)
+                gameUi.evaluationResult(object: GameResultInterface {
+                    override val content: String = content
+                    override val definition: String = entry
+                })
             } catch (e: Exception) {
-                val nonExisting = "Entry : Non existing word."
-                Log.d("ENTRY", nonExisting)
-                gameUi.evaluationResult(nonExisting)
+                val nonExisting = "Non existing word."
+                Log.d("ENTRY", "$content: $nonExisting")
+                gameUi.evaluationResult(object: GameResultInterface {
+                    override val content: String = content
+                    override val definition: String = nonExisting
+                })
             }
         }
     }
