@@ -1,6 +1,5 @@
 package com.outerspace.hiltexperiment.ui_layer
 
-import android.util.Log
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,10 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import com.outerspace.hiltexperiment.ui.theme.HiltExperimentTheme
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -44,10 +41,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HiltExperimentTheme {
-                var stateResult by remember { mutableStateOf("...") }
+                var stateContent by remember { mutableStateOf("...") }
+                var stateDefinition by remember { mutableStateOf("") }
 
                 mainVM.liveResult.observe(this) {
-                    result -> stateResult = result
+                    gameResult ->
+                        stateContent = gameResult.content
+                        stateDefinition = gameResult.definition
                 }
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -57,7 +57,12 @@ class MainActivity : ComponentActivity() {
                             mainVM
                         )
                         Text(
-                            text = stateResult,
+                            text = stateContent,
+                            modifier = Modifier.padding(top = 24.dp, start = 8.dp, end = 8.dp),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Text(
+                            text = stateDefinition,
                             modifier = Modifier.padding(top = 24.dp, start = 8.dp, end = 8.dp),
                             style = MaterialTheme.typography.bodyLarge
                         )

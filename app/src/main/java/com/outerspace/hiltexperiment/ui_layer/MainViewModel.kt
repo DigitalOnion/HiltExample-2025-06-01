@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.outerspace.hiltexperiment.data_layer.game.GameBoard
 import com.outerspace.hiltexperiment.data_layer.game.GameBoardInterface
 import com.outerspace.hiltexperiment.data_layer.game.GameCell
+import com.outerspace.hiltexperiment.data_layer.game.GameResultInterface
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
@@ -15,13 +16,13 @@ class MainViewModel @Inject constructor(
     private val gameBoard: GameBoard
 ): ViewModel(), GameBoardInterface, GameUIInterface {
 
-    val liveResult: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+    val liveResult: MutableLiveData<GameResultInterface> by lazy {
+        MutableLiveData<GameResultInterface>()
     }
 
     override val scope = viewModelScope
 
-    override fun evaluationResult(result: String) {
+    override fun evaluationResult(result: GameResultInterface) {
         liveResult.value = result
     }
 
